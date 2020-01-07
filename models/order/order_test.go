@@ -5,8 +5,11 @@ import (
 	"github.com/stretchr/testify/assert"
 	"order-manager/models/item"
 	"order-manager/models/order"
+	"order-manager/models/order_status"
 	"testing"
 )
+
+const newStatus = order_status.Cancelled
 
 var item1 = item.Item{
 	ID:           "Test",
@@ -24,7 +27,7 @@ var item2 = item.Item{
 
 var or = order.Order{
 	ID:     "Order-123",
-	Status: "Pending",
+	Status: order_status.Preparing,
 	Items:  []*item.Item{&item1, &item2},
 }
 
@@ -35,12 +38,26 @@ func TestTotal(t *testing.T) {
 }
 
 func TestPrintOrder(t *testing.T) {
-	expected := fmt.Sprintf("Order ID: %s\n Order Status: %s\n Items: [%s %s %.2f %s][%s %s %.2f %s]\n",
+	want := fmt.Sprintf("Order ID: %s\n Order Status: %d\n Items: [%s %s %.2f %s][%s %s %.2f %s]\n",
 		or.ID, or.Status, item1.ID, item1.Name, item1.Price, item1.CurrencyCode,
 		item2.ID, item2.Name, item2.Price, item2.CurrencyCode)
 
 	got := or.PrintOrder()
-	if expected != got {
-		t.Errorf("Incorrect result, expected: %v, got: %v", expected, got )
+	if want != got {
+		t.Errorf("Incorrect result, got: %v, want: %v", got, want)
+	}
+}
+
+func TestChangeStatus(t *testing.T) {
+	or.ChangeStatus(newStatus)
+	if or.Status != newStatus {
+		t.Errorf("Order status incorrect, got: %d want: %v", order_status.Cancelled, newStatus)
+	}
+}
+
+func BenchmarkChangeStatus(b *testing.B) {
+	// run the Change Name function b.N times
+	for n := 0; n < b.N; n++ {
+		or.ChangeStatus(3)
 	}
 }
