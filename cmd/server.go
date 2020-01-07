@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
-	item "order-manager/models/item"
-	order2 "order-manager/models/order"
+	"order-manager/models/item"
+	"order-manager/models/order"
 )
 
 func main() {
@@ -22,7 +22,7 @@ func main() {
 		Price:        10.00,
 	}
 
-	order := order2.Order{
+	order1 := order.Order{
 		ID:     "Order-123",
 		Status: "Pending",
 		Items:  []*item.Item{&item1, &item2},
@@ -33,9 +33,9 @@ func main() {
 
 	fmt.Println("Item after changes:\n", item1.PrintItem())
 
-	total := fmt.Sprintf("The order total is: %.2f", order.Total())
+	total := fmt.Sprintf("The order total is: %.2f", order1.Total())
 	fmt.Println(total)
 
-	fmt.Printf("Printing the order: %v\n", order.PrintOrder())
+	fmt.Printf("Printing the order: %v\n", order1.PrintOrder())
 
 }
