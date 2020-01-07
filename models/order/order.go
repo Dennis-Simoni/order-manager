@@ -3,13 +3,16 @@ package order
 import (
 	"fmt"
 	"order-manager/models/item"
+	"order-manager/models/order_status"
 )
 
 type Order struct {
-	ID, Status string
-	Items      []*item.Item
+	ID     string
+	Status order_status.OrderStatus
+	Items  []*item.Item
 }
 
+// Total calculates the total price of an order
 func (order Order) Total() float64 {
 	var total float64
 	for _, v := range order.Items {
@@ -17,11 +20,17 @@ func (order Order) Total() float64 {
 	}
 	return total
 }
-
+// PrintOrder formats the order struct into a string representation
 func (order Order) PrintOrder() string {
-	return fmt.Sprintf("Order ID: %s\n Order Status: %s\n Items: %v\n", order.ID, order.Status, formatItems(order))
+	return fmt.Sprintf("Order ID: %s\n Order Status: %d\n Items: %v\n", order.ID, order.Status, formatItems(order))
 }
 
+// ChangeStatus changes the status of an order.
+func (order *Order) ChangeStatus(status order_status.OrderStatus) {
+	order.Status = status
+}
+
+// formatItems is a helper function to PrintOrder() that formats the order items in a string representation.
 func formatItems(order Order) string {
 	var str string
 	for _, v := range order.Items {

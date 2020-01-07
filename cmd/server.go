@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"order-manager/models/item"
 	"order-manager/models/order"
+	"order-manager/models/order_status"
 )
 
 func main() {
@@ -24,7 +25,7 @@ func main() {
 
 	order1 := order.Order{
 		ID:     "Order-123",
-		Status: "Pending",
+		Status: order_status.New,
 		Items:  []*item.Item{&item1, &item2},
 	}
 
