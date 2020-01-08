@@ -11,7 +11,7 @@ type DB struct {
 	orders map[string]order.Order
 }
 
-// InitDB is an initializer function for a database.
+// InitDB is an initializer function for the database.
 func InitDB() *DB {
 	return &DB{
 		make(map[string]order.Order),
@@ -28,11 +28,11 @@ func (db *DB) UpsertOrder(order order.Order) error {
 
 // FetchOrder receives an order ID and if a record exists returns it, otherwise returns an error.
 func (db *DB) FetchOrder(orderID string) (order.Order, error) {
-	ord, ok := db.orders[orderID]
+	or, ok := db.orders[orderID]
 	if !ok {
 		return order.Order{}, errors.New(fmt.Sprintf("The order id: %s is not found", orderID))
 	}
-	return ord, nil
+	return or, nil
 }
 
 // FetchAllOrders returns all records available, if any.
