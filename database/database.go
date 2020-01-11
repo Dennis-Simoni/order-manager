@@ -4,21 +4,25 @@ import (
 	"errors"
 	"fmt"
 	"order-manager/models/order"
+	"sync"
 )
 
 // DB is a struct that defines an in-memory storage.
 type DB struct {
+	m sync.Mutex
 	orders map[string]order.Order
 }
 
 // InitDB is an initializer function for the database.
 func InitDB() *DB {
 	return &DB{
-		make(map[string]order.Order),
+		orders: make(map[string]order.Order),
 	}
 }
 // UpsertOrder order allows to atomically insert a record
 func (db *DB) UpsertOrder(order order.Order) error {
+	db.m.Lock()
+	defer db.m.Unlock()
 	if _, ok := db.orders[order.ID]; !ok {
 		order.ID = fmt.Sprintf("order-%d", len(db.orders))
 	}
@@ -52,8 +56,9 @@ func (db *DB) FetchAllOrders() ([]order.Order, error) {
 
 // DeleteOrder receives an order ID and if a record exists, deletes it, otherwise returns an error.
 func (db *DB) DeleteOrder(orderID string) error {
+	db.m.Lock()
+	defer db.m.Unlock()
 	_, ok := db.orders[orderID]
-
 	if !ok {
 		return errors.New(fmt.Sprintf("The order id %s doesn't match an active record", orderID))
 	}
