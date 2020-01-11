@@ -24,7 +24,7 @@ func (or *OrderRepo) Fetch(orderID string) (*order.Order, error) {
 }
 
 // FetchAll returns all the existing orders from the database
-func (or *OrderRepo) FetchAll() ([]order.Order, error) {
+func (or *OrderRepo) FetchAll() []order.Order {
 	return or.DB.FetchAllOrders()
 }
 

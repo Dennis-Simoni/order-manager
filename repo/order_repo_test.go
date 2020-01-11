@@ -49,7 +49,7 @@ func TestFetch(t *testing.T) {
 }
 
 func TestFetchAll(t *testing.T) {
-	got, _ := or.FetchAll()
+	got := or.FetchAll()
 	if got[0].Status != order_status.New {
 		t.Fatalf("status of first order is incorrect, got: %d, want: %d", got[0].Status, order_status.New)
 	}
@@ -66,7 +66,7 @@ func TestDelete(t *testing.T) {
 	if err == nil {
 		t.Fatalf("delete operation should have returned error when no key to be deleted")
 	}
-	orders, _ := or.FetchAll()
+	orders := or.FetchAll()
 	assert.Equal(t, 2, len(orders))
 }
 

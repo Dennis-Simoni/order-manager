@@ -40,18 +40,14 @@ func (db *DB) FetchOrder(orderID string) (order.Order, error) {
 }
 
 // FetchAllOrders returns all records available, if any.
-func (db *DB) FetchAllOrders() ([]order.Order, error) {
+func (db *DB) FetchAllOrders() []order.Order {
 	var orders []order.Order
-
-	if len(db.orders) == 0 {
-		return orders, errors.New("the database is currently not populated with any values")
-	}
 
 	for _, v := range db.orders {
 		orders = append(orders, v)
 	}
 
-	return orders, nil
+	return orders
 }
 
 // DeleteOrder receives an order ID and if a record exists, deletes it, otherwise returns an error.
