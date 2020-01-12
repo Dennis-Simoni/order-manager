@@ -11,6 +11,7 @@ func Start(h *Handler) {
 
 	router.GET("/", h.Index())
 	router.GET("/orders", h.GetOrders())
+	router.GET("/orders/:order_id", h.GetOrder())
 	router.POST("/orders", h.PostOrder())
 
 	log.Fatal(router.Run(":8080"))
