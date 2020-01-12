@@ -7,9 +7,9 @@ import (
 )
 
 type Order struct {
-	ID     string
-	Status order_status.OrderStatus
-	Items  []*item.Item
+	ID     string                   `json:"id" `
+	Status order_status.OrderStatus `json:"status"`
+	Items  []*item.Item             `json:"items"`
 }
 
 // Total calculates the total price of an order
@@ -20,6 +20,7 @@ func (order Order) Total() float64 {
 	}
 	return total
 }
+
 // PrintOrder formats the order struct into a string representation
 func (order Order) PrintOrder() string {
 	return fmt.Sprintf("Order ID: %s\n Order Status: %d\n Items: %v\n", order.ID, order.Status, formatItems(order))

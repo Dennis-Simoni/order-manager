@@ -4,9 +4,10 @@ import (
 	"order-manager/database"
 	"order-manager/models/order"
 )
+
 // OrderRepo takes the DB struct as a dependency, which represents the database connection.
 type OrderRepo struct {
-	DB *database.DB
+	DB  *database.DB
 }
 
 // Upsert inserts or updates a model into the database
@@ -16,7 +17,7 @@ func (or *OrderRepo) Upsert(order *order.Order) error {
 
 // Fetch returns an order with a specific id from the database
 func (or *OrderRepo) Fetch(orderID string) (*order.Order, error) {
-	order,err := or.DB.FetchOrder(orderID)
+	order, err := or.DB.FetchOrder(orderID)
 	if err != nil {
 		return nil, err
 	}
@@ -24,7 +25,7 @@ func (or *OrderRepo) Fetch(orderID string) (*order.Order, error) {
 }
 
 // FetchAll returns all the existing orders from the database
-func (or *OrderRepo) FetchAll() ([]order.Order, error) {
+func (or *OrderRepo) FetchAll() []order.Order {
 	return or.DB.FetchAllOrders()
 }
 
