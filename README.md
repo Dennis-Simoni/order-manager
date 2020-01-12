@@ -19,30 +19,6 @@ If you'd like to use a different directory, you will need to setup your [`GOPATH
     - Using your terminal navigate to the `greeter` folder of this project 
     - run the following command where name is your name:
 ```
-     ❯ go run hello.go Name
-     Hey {Name}, welcome to the project!
-```   
-# Welcome to the order-manager #
-## Workstation Setup ##
-* Download & install the Go tools and ensure you add the `bin` directory to your `PATH` as well.<br>
-
-* Choose the installation steps for your operating system at golang.org
-A Go version of 1.12 or later is needed to run this code.<br>
-
-* Once go is installed, you can run the following command in your terminal to verify the version installed.
-```
-❯ go version
-go version go1.13 darwin/amd64
-```
-* The default workspace directory is `$HOME/go`. 
-If you'd like to use a different directory, you will need to setup your [`GOPATH`](https://github.com/golang/go/wiki/SettingGOPATH) environment variable.
-
-* Test your installation.<br>
-    - Clone this repository in your go working directory. <br>
-    `example working directoy: $GOPATH/src/github.com`
-    - Using your terminal navigate to the `greeter` folder of this project 
-    - run the following command where name is your name:
-```
 ❯ go run hello.go Name
 Hey {Name}, welcome to the project!
 ```   
