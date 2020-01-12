@@ -1,0 +1,29 @@
+{
+  "Items": [
+    {
+      "id": "item-burger",
+      "name": "Burger",
+      "price": 10.85,
+      "currency_code": "GBP"
+    },
+    {
+      "id": "item-pizza",
+      "name": "Pizza",
+      "price": 12.59,
+      "currency_code": "GBP"
+    },
+    {
+      "id": "item-salad",
+      "name": "Salad",
+      "price": 6.99,
+      "currency_code": "GBP"
+    },
+    {
+      "id": "item-sprite",
+      "name": "Sprite",
+      "price": 2.49,
+      "currency_code": "GBP"
+    }
+  ],
+  "status": 0
+}

@@ -3,8 +3,10 @@ package item
 import "fmt"
 
 type Item struct {
-	ID, Name, CurrencyCode string
-	Price                  float64
+	ID           string  `json:"id"`
+	Name         string  `json:"name"`
+	CurrencyCode string  `json:"currency_code"`
+	Price        float64 `json:"price"`
 }
 
 // PrintItem prints the Item struct representation in a form of string.
