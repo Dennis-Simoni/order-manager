@@ -15,12 +15,15 @@ type Handler struct {
 	Repo *repo.OrderRepo
 }
 
+// Index is invoked by HTTP GET /
 func (h *Handler) Index() func(ctx *gin.Context) {
 	return func(ctx *gin.Context) {
-		ctx.JSON(http.StatusOK, gin.H{"INFO:":"Welcome to the order manager service!"})
+		// Response
+		ctx.JSON(http.StatusOK, gin.H{"INFO": "Welcome to the order manager service!"})
 	}
 }
 
+// GetOrders is invoked by HTTP GET /orders
 func (h *Handler) GetOrders() func(ctx *gin.Context) {
 	return func(ctx *gin.Context) {
 		// Call to the repository method corresponding to the operation
@@ -29,20 +32,22 @@ func (h *Handler) GetOrders() func(ctx *gin.Context) {
 
 		// Error handling, HTTP status & response
 		if err != nil {
-			ctx.JSON(http.StatusInternalServerError, gin.H{"Error":"unable to serve the request"})
+			ctx.JSON(http.StatusInternalServerError, gin.H{"Error": "unable to serve the request"})
 			return
 		}
 
 		// Perform null check, HTTP status & response
 		if string(orders) == "null" {
-			ctx.JSON(http.StatusOK, gin.H{"INFO:":"currently there are no available orders to display"})
+			ctx.JSON(http.StatusOK, gin.H{"INFO": "currently there are no available orders to display"})
 			return
 		}
+		// Response
 		log.Printf("Order string representation: %s", string(orders))
-		ctx.JSON(http.StatusOK, gin.H{"INFO:": "orders retrieved", "serialized order objects:": orders})
+		ctx.JSON(http.StatusOK, gin.H{"INFO": "orders retrieved", "serialized order objects:": orders})
 	}
 }
 
+// GetOrder is invoked by HTTP GET /orders/{order_id}
 func (h *Handler) GetOrder() func(ctx *gin.Context) {
 	return func(ctx *gin.Context) {
 		// Call the corresponding repository method to fetch the order with
@@ -55,17 +60,16 @@ func (h *Handler) GetOrder() func(ctx *gin.Context) {
 		// Serializes the retrieved object
 		o, err := json.Marshal(or)
 		if err != nil {
-			ctx.JSON(http.StatusInternalServerError, gin.H{"Error":"unable to serve the request"})
+			ctx.JSON(http.StatusInternalServerError, gin.H{"Error": "unable to serve the request"})
 			return
 		}
-		// HTTP status & response
+		// Response
 		log.Printf("Order Retrieved: %v", string(o))
 		ctx.JSON(http.StatusOK, o)
 	}
 }
 
-// run server: go run server.go
-// post request: curl -v -H "Content-Type: application/json"  --data @postBody.json http://localhost:8080/orders
+// PostOrder is invoked by HTTP POST /orders
 func (h *Handler) PostOrder() func(ctx *gin.Context) {
 	return func(ctx *gin.Context) {
 		var order order.Order
@@ -74,7 +78,7 @@ func (h *Handler) PostOrder() func(ctx *gin.Context) {
 		body, err := ioutil.ReadAll(io.LimitReader(ctx.Request.Body, 1048576))
 		// Error handling, HTTP status & response
 		if err != nil {
-			ctx.JSON(http.StatusInternalServerError, gin.H{"Error:":"unable to read request body"})
+			ctx.JSON(http.StatusInternalServerError, gin.H{"Error": "unable to read request body"})
 			return
 		}
 		// Unmarshal request to order struct, HTTP status & response
@@ -85,20 +89,23 @@ func (h *Handler) PostOrder() func(ctx *gin.Context) {
 		// Call to the repository method corresponding to the POST operation
 		err = h.Repo.DB.UpsertOrder(order)
 		if err != nil {
-			ctx.JSON(http.StatusInternalServerError, gin.H{"Error:":"the server responded with error"})
+			ctx.JSON(http.StatusInternalServerError, gin.H{"Error": "the server responded with error"})
 			return
 		}
-		// HTTP success status & the value return from the repo
-		ctx.JSON(http.StatusCreated, gin.H{"INFO:": "order created"})
+		// Response
+		ctx.JSON(http.StatusCreated, gin.H{"INFO": "order created"})
 	}
 }
-// curl -X "DELETE" http://localhost:8080/orders/{order_id}
+
+// DelOrder is invoked by HTTP DELETE /orders/{order_id}
 func (h *Handler) DelOrder() func(ctx *gin.Context) {
 	return func(ctx *gin.Context) {
+		// Call to the repository method corresponding to the DELETE operation
 		if err := h.Repo.Delete(ctx.Param("order_id")); err != nil {
 			ctx.JSON(http.StatusNotFound, gin.H{"Error": error.Error(err)})
 			return
 		}
-		ctx.JSON(http.StatusOK, gin.H{"INFO:":"order deleted"})
+		// Response
+		ctx.JSON(http.StatusOK, gin.H{"INFO": "order deleted"})
 	}
 }

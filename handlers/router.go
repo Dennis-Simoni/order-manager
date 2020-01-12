@@ -17,5 +17,3 @@ func Start(h *Handler) {
 
 	log.Fatal(router.Run(":8080"))
 }
-
-// go test ./... to run all tests
