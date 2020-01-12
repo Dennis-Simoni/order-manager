@@ -13,6 +13,7 @@ func Start(h *Handler) {
 	router.GET("/orders", h.GetOrders())
 	router.GET("/orders/:order_id", h.GetOrder())
 	router.POST("/orders", h.PostOrder())
+	router.DELETE("/orders/:order_id", h.DelOrder())
 
 	log.Fatal(router.Run(":8080"))
 }
